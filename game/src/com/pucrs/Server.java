@@ -67,6 +67,12 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
     @Override
     public int registra() throws RemoteException {
         int idJogador = random.nextInt();
+        try {
+            remoteHostName = getClientHost();
+        } catch (Exception e) {
+            System.out.println ("Failed to get client IP");
+            e.printStackTrace();
+        }
         // conferir contador, para setar jogadoresRegistrados para true
         return idJogador;
     }
