@@ -86,6 +86,6 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
     @Override
     public void cutuca() throws RemoteException {
-        System.out.println("Jogador cutucado.")
+        System.out.println("Jogador cutucado.");
     }
 }
