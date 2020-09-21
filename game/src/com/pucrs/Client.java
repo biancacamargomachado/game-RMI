@@ -68,7 +68,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
     public void joga() throws RemoteException{
         while (jogando) {
-			server.joga(playerId);
+			server.joga(id);
 		}
     }
 
