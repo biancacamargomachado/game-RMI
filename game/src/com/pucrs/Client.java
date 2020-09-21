@@ -48,7 +48,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
         try {
             int id = jogo.registra();
-            System.out.println(id);
+            System.out.println("ID registrado: " + id);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
