@@ -9,8 +9,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
     private static JogoInterface server = null;
     private static boolean jogando = false;
 
-    public Client(int id) throws RemoteException {
-        this.id = id;
+    public Client() throws RemoteException {
     }
 
     public static void main(String[] args) {
