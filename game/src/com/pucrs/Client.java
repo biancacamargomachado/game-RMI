@@ -9,6 +9,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
     private static JogoInterface server = null;
     private static boolean jogando = false;
     private static int qtdJogadas = 5;
+    private static JogoInterface jogo = null;
 
     public Client() throws RemoteException {
     }
@@ -42,7 +43,6 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
         String remoteHostName = args[0];
         String connectLocation = "rmi://" + remoteHostName + ":52369/Connection";
 
-        JogoInterface jogo = null;
         try {
             System.out.println("Connecting to server at : " + connectLocation);
             jogo = (JogoInterface) Naming.lookup(connectLocation);
@@ -63,7 +63,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
         while (qtdJogadas > 0 && jogando) {
             try {
                 qtdJogadas--;
-                server.joga(id);
+                jogo.joga(id);
                 System.out.println("Ainda posso jogar: " + qtdJogadas);
                 // Thread.sleep(500); // fazer random depois
             } catch (RemoteException ex) {}
