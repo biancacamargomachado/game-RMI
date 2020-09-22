@@ -112,6 +112,13 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
 
     @Override
     public int encerra(int id) throws RemoteException {
+        for(Jogador j: jogadores){
+            if (j.getId() == id) {
+                System.out.println(id + " -> Encerrou");
+                // remove da lista o jogador que encerrou
+                jogadores.remove(jogadores.indexOf(j));
+            }
+        }
         return 0;
     }
 }

@@ -73,6 +73,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
                 // Thread.sleep(500); // fazer random depois
             } catch (RemoteException ex) {}
         }
+        jogo.encerra(id);
     }
 
     @Override
