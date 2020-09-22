@@ -31,8 +31,7 @@ public class CutucaThread extends Thread {
                         }
                     }
                     Thread.sleep(3000);
-                }
-                catch(RemoteException | InterruptedException exception) {
+                }catch(Exception exception) {
                     System.out.println("");
                 }
             }
