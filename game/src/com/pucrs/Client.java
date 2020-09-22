@@ -59,13 +59,13 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
         while (true) {
            try {
-               joga();
+               // joga();
                Thread.sleep(500);
             } catch (InterruptedException ex) {}
         }
     }
 
-    public void joga() throws RemoteException{
+    public static void joga() throws RemoteException{
         while (jogando) {
 			server.joga(id);
 		}

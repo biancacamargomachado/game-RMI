@@ -1,7 +1,9 @@
+package com.pucrs;
+
 public class Jogador {
     private int id;
     private String ip;
-    public int contaJogadas = 0;
+    public int contadorJogadas = 0;
 
    
     public Jogador(int id, String ip) {
