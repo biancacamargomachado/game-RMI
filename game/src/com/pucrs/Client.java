@@ -5,6 +5,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.LocateRegistry;
 
 public class Client extends UnicastRemoteObject implements JogadorInterface {
+    private static int id;
+    private static JogoInterface server = null;
+    private static boolean jogando = false;
+
     public Client() throws RemoteException {
     }
 
@@ -47,31 +51,40 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
         }
 
         try {
-            int id = jogo.registra();
+            id = jogo.registra();
             System.out.println("ID registrado: " + id);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
 
         while (true) {
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException ex) {}
+           try {
+               // joga();
+               Thread.sleep(500);
+            } catch (InterruptedException ex) {}
         }
+    }
+
+    public static void joga() throws RemoteException{
+        while (jogando) {
+			server.joga(id);
+		}
     }
 
     @Override
     public void inicia() throws RemoteException {
-        System.out.println("Jogador iniciado");
+        jogando = true;
+        System.out.println("Jogador iniciado.");
     }
 
     @Override
     public void finaliza() throws RemoteException {
-
+        jogando = false;
+        System.out.println("Jogador finalizado.");
     }
 
     @Override
     public void cutuca() throws RemoteException {
-
+        System.out.println("Jogador cutucado.");
     }
 }
