@@ -11,6 +11,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
     private static volatile Random random = new Random();
     private static volatile boolean jogadoresRegistrados = false;
     private static volatile int maxJogadores;
+    private static int qtdJogadoresJogando = 0;
     private static volatile List<Jogador> jogadores = new ArrayList<Jogador>();
 
     public Server() throws RemoteException {
@@ -46,15 +47,23 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
             Thread.sleep(500);
         }
         jogadoresRegistrados = true;
+        // controlador para quando um jogador encerra
+        qtdJogadoresJogando = maxJogadores;
+
         while (true) {
-            if (jogadoresRegistrados == true) {
+            if (jogadoresRegistrados == true && qtdJogadoresJogando > 0) {
                 for(Jogador j: jogadores){
                     String connectLocation = "rmi://" + j.getIp() + ":52369/Callback";
                     JogadorInterface jogador = null;
                     try {
-                        System.out.println("Calling client back at : " + connectLocation);
-                        jogador = (JogadorInterface) Naming.lookup(connectLocation);
-                        jogador.inicia();
+                        if(!j.iniciado) {
+                            j.iniciado = true;
+                            System.out.println("Calling client back at : " + connectLocation);
+                            jogador = (JogadorInterface) Naming.lookup(connectLocation);
+
+                        // se este jogador não foi iniciado ainda
+                            jogador.inicia();
+                        }
                     } catch (Exception e) {
                         System.out.println ("Callback failed: ");
                         e.printStackTrace();
@@ -85,27 +94,20 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
 
     @Override
     public int joga(int id) throws RemoteException {
-//        for(Jogador j:jogadores){
-//            if(j.getId() == id){
-//                // if(j.contadorJogadas == maxJogadas){
-//                    String connectLocation = "rmi://" + j.getIp() + ":52369/client";
-//                    JogadorInterface client = null;
-//                    try {
-//                        client = (JogadorInterface) Naming.lookup(connectLocation);
-//                        client.finaliza();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                // }
-//                // j.jogadas++;
-//                System.out.println("PlayerID:" + j.getId() + " played");
-//            }
-//        }
-        return 0;
+        //TODO deve existir uma probabilidade de 1% do servidor finalizar o jogador (chamar método finaliza() do cliente)
+        return 1;
     }
 
     @Override
     public int encerra(int id) throws RemoteException {
+        for(Jogador j: jogadores){
+            if (j.getId() == id) {
+                qtdJogadoresJogando--;
+                System.out.println(id + " -> Encerrou");
+                // remove da lista o jogador que encerrou
+                j.iniciado = false;
+            }
+        }
         return 0;
     }
 }

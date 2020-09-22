@@ -3,6 +3,7 @@ package com.pucrs;
 public class Jogador {
     private int id;
     private String ip;
+    public boolean iniciado = false;
     public int contadorJogadas = 0;
 
    

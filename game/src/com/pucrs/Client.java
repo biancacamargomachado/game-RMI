@@ -8,6 +8,8 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
     private static int id;
     private static JogoInterface server = null;
     private static boolean jogando = false;
+    private static int qtdJogadas = 5;
+    private static JogoInterface jogo = null;
 
     public Client() throws RemoteException {
     }
@@ -41,7 +43,6 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
         String remoteHostName = args[0];
         String connectLocation = "rmi://" + remoteHostName + ":52369/Connection";
 
-        JogoInterface jogo = null;
         try {
             System.out.println("Connecting to server at : " + connectLocation);
             jogo = (JogoInterface) Naming.lookup(connectLocation);
@@ -52,29 +53,36 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
         try {
             id = jogo.registra();
-            System.out.println("ID registrado: " + id);
+            if (id != -1) {
+                System.out.println("ID registrado: " + id);
+            } else {
+                System.out.println("Jogo já começou");
+            }
+
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
-
-        while (true) {
-           try {
-               // joga();
-               Thread.sleep(500);
-            } catch (InterruptedException ex) {}
         }
     }
 
     public static void joga() throws RemoteException{
-        while (jogando) {
-			server.joga(id);
-		}
+        while (qtdJogadas > 0 && jogando) {
+            try {
+                qtdJogadas--;
+                jogo.joga(id);
+                System.out.println("Ainda posso jogar: " + qtdJogadas);
+                //TODO Thread.sleep(500); // fazer random para os intervalos, de 500ms a 1500ms
+            } catch (RemoteException ex) {}
+        }
+        jogo.encerra(id);
+        System.out.println("Cliente encerrado.");
+        jogando = false;
     }
 
     @Override
     public void inicia() throws RemoteException {
         jogando = true;
         System.out.println("Jogador iniciado.");
+        joga();
     }
 
     @Override
