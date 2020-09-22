@@ -69,6 +69,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
                         e.printStackTrace();
                     }
                 }
+                new CutucaThread(jogadores).start();
             }
         }
     }
