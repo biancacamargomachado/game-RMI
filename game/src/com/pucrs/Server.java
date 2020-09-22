@@ -54,7 +54,12 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
                     try {
                         System.out.println("Calling client back at : " + connectLocation);
                         jogador = (JogadorInterface) Naming.lookup(connectLocation);
-                        jogador.inicia();
+
+                        // se este jogador não foi iniciado ainda
+                        if(!j.iniciado) {
+                            j.iniciado = true;
+                            jogador.inicia();
+                        }
                     } catch (Exception e) {
                         System.out.println ("Callback failed: ");
                         e.printStackTrace();
