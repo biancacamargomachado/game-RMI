@@ -74,6 +74,8 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
             } catch (RemoteException ex) {}
         }
         jogo.encerra(id);
+        System.out.println("Cliente encerrado.");
+        jogando = false;
     }
 
     @Override

@@ -116,7 +116,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
             if (j.getId() == id) {
                 System.out.println(id + " -> Encerrou");
                 // remove da lista o jogador que encerrou
-                jogadores.remove(jogadores.indexOf(j));
+                j.iniciado = false;
             }
         }
         return 0;
