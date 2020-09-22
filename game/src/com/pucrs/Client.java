@@ -16,7 +16,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
     public static void main(String[] args) {
         System.out.println("Client has started");
 
-        if (args.length != 3) {
+        if (args.length != 2) {
             System.out.println("Usage: java Client <server ip> <client ip>");
             System.exit(1);
         }
@@ -58,13 +58,13 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
             e.printStackTrace();
         }
 
-        while (qtdJogadas > 0) {
+        while (qtdJogadas > 0 && jogando) {
            try {
                joga();
                qtdJogadas--;
                System.out.println("Ainda posso jogar: " + qtdJogadas);
-               Thread.sleep(500); // fazer random depois
-            } catch (InterruptedException | RemoteException ex) {}
+               // Thread.sleep(500); // fazer random depois
+            } catch (RemoteException ex) {}
         }
     }
 

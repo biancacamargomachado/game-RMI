@@ -107,7 +107,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
 //                System.out.println("PlayerID:" + j.getId() + " played");
 //            }
 //        }
-        return 0;
+        return 1;
     }
 
     @Override
