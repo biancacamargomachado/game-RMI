@@ -62,7 +62,6 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
     public static void joga() throws RemoteException{
         while (qtdJogadas > 0 && jogando) {
             try {
-                joga();
                 qtdJogadas--;
                 server.joga(id);
                 System.out.println("Ainda posso jogar: " + qtdJogadas);
