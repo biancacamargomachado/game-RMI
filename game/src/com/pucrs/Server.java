@@ -94,23 +94,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
 
     @Override
     public int joga(int id) throws RemoteException {
-
-//        for(Jogador j:jogadores){
-//            if(j.getId() == id){
-//                // if(j.contadorJogadas == maxJogadas){
-//                    String connectLocation = "rmi://" + j.getIp() + ":52369/client";
-//                    JogadorInterface client = null;
-//                    try {
-//                        client = (JogadorInterface) Naming.lookup(connectLocation);
-//                        client.finaliza();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                // }
-//                // j.jogadas++;
-//                System.out.println("PlayerID:" + j.getId() + " played");
-//            }
-//        }
+        //TODO deve existir uma probabilidade de 1% do servidor finalizar o jogador (chamar método finaliza() do cliente)
         return 1;
     }
 

@@ -70,7 +70,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
                 qtdJogadas--;
                 jogo.joga(id);
                 System.out.println("Ainda posso jogar: " + qtdJogadas);
-                // Thread.sleep(500); // fazer random depois
+                //TODO Thread.sleep(500); // fazer random para os intervalos, de 500ms a 1500ms
             } catch (RemoteException ex) {}
         }
         jogo.encerra(id);
