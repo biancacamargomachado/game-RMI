@@ -11,6 +11,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
     private static volatile Random random = new Random();
     private static volatile boolean jogadoresRegistrados = false;
     private static volatile int maxJogadores;
+    private static int qtdJogadoresJogando = 0;
     private static volatile List<Jogador> jogadores = new ArrayList<Jogador>();
 
     public Server() throws RemoteException {
@@ -46,8 +47,11 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
             Thread.sleep(500);
         }
         jogadoresRegistrados = true;
+        // controlador para quando um jogador encerra
+        qtdJogadoresJogando = maxJogadores;
+
         while (true) {
-            if (jogadoresRegistrados == true) {
+            if (jogadoresRegistrados == true && qtdJogadoresJogando > 0) {
                 for(Jogador j: jogadores){
                     String connectLocation = "rmi://" + j.getIp() + ":52369/Callback";
                     JogadorInterface jogador = null;
@@ -114,6 +118,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
     public int encerra(int id) throws RemoteException {
         for(Jogador j: jogadores){
             if (j.getId() == id) {
+                qtdJogadoresJogando--;
                 System.out.println(id + " -> Encerrou");
                 // remove da lista o jogador que encerrou
                 j.iniciado = false;
