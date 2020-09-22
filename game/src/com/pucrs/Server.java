@@ -52,12 +52,12 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
                     String connectLocation = "rmi://" + j.getIp() + ":52369/Callback";
                     JogadorInterface jogador = null;
                     try {
-                        System.out.println("Calling client back at : " + connectLocation);
-                        jogador = (JogadorInterface) Naming.lookup(connectLocation);
-
-                        // se este jogador não foi iniciado ainda
                         if(!j.iniciado) {
                             j.iniciado = true;
+                            System.out.println("Calling client back at : " + connectLocation);
+                            jogador = (JogadorInterface) Naming.lookup(connectLocation);
+
+                        // se este jogador não foi iniciado ainda
                             jogador.inicia();
                         }
                     } catch (Exception e) {
