@@ -51,7 +51,6 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
         qtdJogadoresJogando = maxJogadores;
 
         while (true) {
-            new CutucaThread(jogadores).start();
             if (jogadoresRegistrados == true && qtdJogadoresJogando > 0) {
                 for(Jogador j: jogadores){
                     String connectLocation = "rmi://" + j.getIp() + ":52369/Callback";
@@ -70,6 +69,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
                         e.printStackTrace();
                     }
                 }
+                new CutucaThread(jogadores).start();
             }
         }
     }
