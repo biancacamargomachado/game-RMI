@@ -8,7 +8,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
     private static int id;
     private static JogoInterface server = null;
     private static boolean jogando = false;
-    private static int qtdJogadas = 10;
+    private static int qtdJogadas = 5;
 
     public Client() throws RemoteException {
     }

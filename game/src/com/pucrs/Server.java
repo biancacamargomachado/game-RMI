@@ -90,6 +90,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
 
     @Override
     public int joga(int id) throws RemoteException {
+
 //        for(Jogador j:jogadores){
 //            if(j.getId() == id){
 //                // if(j.contadorJogadas == maxJogadas){
