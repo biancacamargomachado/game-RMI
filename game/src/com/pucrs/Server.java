@@ -105,7 +105,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
                     try {
                         client = (JogadorInterface) Naming.lookup(connectLocation);
                         client.finaliza();
-                        System.out.println("Jogador de id: "+id+" expulso")
+                        System.out.println("Jogador de id: "+id+" expulso");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
