@@ -24,7 +24,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
             int initial = 500;
             int end = 1500;
             int delay = new Random().nextInt(end-initial) + initial;
-            timer.schedule(new Task(), delay);
+            if (qtdJogadas > 0 && jogando) timer.schedule(new Task(), delay);
             qtdJogadas--;
             try {
                 jogo.joga(id);

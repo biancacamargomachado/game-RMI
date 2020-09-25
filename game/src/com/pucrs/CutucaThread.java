@@ -19,15 +19,17 @@ public class CutucaThread extends Thread {
             synchronized (this.jogadores) {
                 try {
                     for (Jogador j: this.jogadores) {
-                        String connectLocation = "rmi://" + j.getIp() + ":52369/Callback";
-                        JogadorInterface client = null;
-                        try {
-                            client = (JogadorInterface) Naming.lookup(connectLocation);
-                            client.cutuca();
-                            System.out.println("Jogador " + j.getId() + " ATIVO!");
-                        } catch (Exception e) {
-                            System.out.println("Jogador " + j.getId()+" INATIVO!");
-                            e.printStackTrace();
+                        if (j.iniciado) {
+                            String connectLocation = "rmi://" + j.getIp() + ":52369/Callback";
+                            JogadorInterface client = null;
+                            try {
+                                client = (JogadorInterface) Naming.lookup(connectLocation);
+                                client.cutuca();
+                                System.out.println("Jogador " + j.getId() + " ATIVO!");
+                            } catch (Exception e) {
+                                System.out.println("Jogador " + j.getId()+" INATIVO!");
+                                e.printStackTrace();
+                            }
                         }
                     }
                     Thread.sleep(3000);
