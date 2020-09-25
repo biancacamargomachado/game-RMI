@@ -21,16 +21,17 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
     static class Task extends TimerTask {
         @Override
         public void run() {
-            int initial = 500;
-            int end = 1500;
+            int initial = 2000;
+            int end = 10000;
             int delay = new Random().nextInt(end-initial) + initial;
-            timer.schedule(new Task(), delay);
+            qtdJogadas--;
             try {
                 jogo.joga(id);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
             System.out.println("Ainda posso jogar: " + qtdJogadas);
+            timer.schedule(new Task(), delay);
         }
 
     }
@@ -86,20 +87,21 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
     }
 
     public static void joga() throws RemoteException{
-        while (qtdJogadas > 0 && jogando) {
-            if (qtdJogadas > 0 && jogando) new Task().run();
-            qtdJogadas--;
-        }
-        jogo.encerra(id);
-        System.out.println("Cliente encerrado.");
-        jogando = false;
+        System.out.println("metodo joga: " +  qtdJogadas);
+        if (qtdJogadas > 0 && jogando) new Task().run();
     }
 
     @Override
     public void inicia() throws RemoteException {
         jogando = true;
         System.out.println("Jogador iniciado.");
-        joga();
+        while (qtdJogadas > 0 && jogando) {
+            System.out.println("while do inicia(): " +  qtdJogadas);
+            joga();
+        }
+        jogo.encerra(id);
+        System.out.println("Cliente encerrado.");
+        jogando = false;
     }
 
     @Override
