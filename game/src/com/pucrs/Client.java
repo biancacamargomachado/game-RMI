@@ -3,6 +3,9 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.registry.LocateRegistry;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Client extends UnicastRemoteObject implements JogadorInterface {
     private static int id;
@@ -10,8 +13,27 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
     private static boolean jogando = false;
     private static int qtdJogadas = 5;
     private static JogoInterface jogo = null;
+    static Timer timer = new Timer();
 
     public Client() throws RemoteException {
+    }
+
+    static class Task extends TimerTask {
+        @Override
+        public void run() {
+            int initial = 500;
+            int end = 1500;
+            int delay = new Random().nextInt(end-initial) + initial;
+            timer.schedule(new Task(), delay);
+            qtdJogadas--;
+            try {
+                jogo.joga(id);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Ainda posso jogar: " + qtdJogadas);
+        }
+
     }
 
     public static void main(String[] args) {
@@ -66,12 +88,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
     public static void joga() throws RemoteException{
         while (qtdJogadas > 0 && jogando) {
-            try {
-                qtdJogadas--;
-                jogo.joga(id);
-                System.out.println("Ainda posso jogar: " + qtdJogadas);
-                //TODO Thread.sleep(500); // fazer random para os intervalos, de 500ms a 1500ms
-            } catch (RemoteException ex) {}
+            new Task().run();
         }
         jogo.encerra(id);
         System.out.println("Cliente encerrado.");
