@@ -24,8 +24,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
             int initial = 500;
             int end = 1500;
             int delay = new Random().nextInt(end-initial) + initial;
-            if (qtdJogadas > 0 && jogando) timer.schedule(new Task(), delay);
-            qtdJogadas--;
+            timer.schedule(new Task(), delay);
             try {
                 jogo.joga(id);
             } catch (RemoteException e) {
@@ -88,7 +87,8 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
     public static void joga() throws RemoteException{
         while (qtdJogadas > 0 && jogando) {
-            new Task().run();
+            if (qtdJogadas > 0 && jogando) new Task().run();
+            qtdJogadas--;
         }
         jogo.encerra(id);
         System.out.println("Cliente encerrado.");
