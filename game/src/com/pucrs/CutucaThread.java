@@ -23,8 +23,12 @@ public class CutucaThread extends Thread {
                         JogadorInterface client = null;
                         try {
                             client = (JogadorInterface) Naming.lookup(connectLocation);
-                            if (j.iniciado) client.cutuca();
-                            System.out.println("Jogador " + j.getId() + " ATIVO!");
+                            if (j.iniciado) {
+                                client.cutuca();
+                                System.out.println("Jogador " + j.getId() + " ATIVO!");
+                            } else {
+                                System.out.println("Jogador " + j.getId() + " ENCARRADO ou INATIVO!");
+                            }
                         } catch (Exception e) {
                             System.out.println("Jogador " + j.getId()+" INATIVO!");
                             e.printStackTrace();
