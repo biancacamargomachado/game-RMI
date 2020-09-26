@@ -27,7 +27,7 @@ public class CutucaThread extends Thread {
                                 client.cutuca();
                                 System.out.println("Jogador " + j.getId() + " ATIVO!");
                             } else {
-                                System.out.println("Jogador " + j.getId() + " ENCARRADO ou INATIVO!");
+                                System.out.println("Jogador " + j.getId() + " ENCERRADO ou INATIVO!");
                             }
                         } catch (Exception e) {
                             System.out.println("Jogador " + j.getId()+" INATIVO!");
