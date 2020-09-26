@@ -16,9 +16,10 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
     public static void main(String[] args) {
         System.out.println("Client has started");
+        String port = args[2];
 
-        if (args.length != 2) {
-            System.out.println("Usage: java Client <server ip> <client ip>");
+        if (args.length != 3) {
+            System.out.println("Usage: java Client <server ip> <client ip> <client port>");
             System.exit(1);
         }
 
@@ -52,7 +53,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
         }
 
         try {
-            id = jogo.registra();
+            id = jogo.registra(port);
             if (id != -1) {
                 System.out.println("ID registrado: " + id);
             } else {

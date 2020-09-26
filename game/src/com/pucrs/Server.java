@@ -6,7 +6,7 @@ import java.rmi.registry.LocateRegistry;
 import java.util.*;
 
 public class Server extends UnicastRemoteObject implements JogoInterface {
-    private static volatile String remoteHostName;
+    private static volatile String remoteHostName, remoteHostPort;
     // private static volatile int maxJogadas = 10;
     private static volatile Random random = new Random();
     private static volatile boolean jogadoresRegistrados = false;
@@ -53,7 +53,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
         while (true) {
             if (jogadoresRegistrados == true && qtdJogadoresJogando > 0) {
                 for(Jogador j: jogadores){
-                    String connectLocation = "rmi://" + j.getIp() + ":52369/Callback";
+                    String connectLocation = "rmi://" + j.getIp() + ":" + j.port +"/Callback";
                     JogadorInterface jogador = null;
                     try {
                         if(!j.iniciado) {
@@ -75,7 +75,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
     }
 
     @Override
-    public int registra() throws RemoteException {
+    public int registra(String port) throws RemoteException {
         // inicia o jogo
         if(jogadores.size() >= maxJogadores)
             return -1;
@@ -84,7 +84,8 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
 
         try {
             remoteHostName = getClientHost();
-            Jogador jogador = new Jogador(idJogador,remoteHostName);
+            remoteHostPort = port;
+            Jogador jogador = new Jogador(idJogador, remoteHostName, remoteHostPort);
             jogadores.add(jogador);
         } catch (Exception e) {
             System.out.println ("Failed to get client IP");
@@ -100,7 +101,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
         if (probability == 1) {
             for(Jogador j:jogadores){
                 if(j.getId()==id){
-                    String connectLocation = "rmi://" + j.getIp() + ":52369/Callback";
+                    String connectLocation = "rmi://" + j.getIp() + ":" + j.port + "/Callback";
                     JogadorInterface client = null;
                     try {
                         client = (JogadorInterface) Naming.lookup(connectLocation);

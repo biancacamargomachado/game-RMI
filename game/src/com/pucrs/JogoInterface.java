@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 public interface JogoInterface extends Remote {
-    public int registra() throws RemoteException;
+    public int registra(String port) throws RemoteException;
     public int joga(int id) throws RemoteException;
     public int encerra(int id) throws RemoteException;
 }
