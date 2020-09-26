@@ -6,7 +6,7 @@ import java.rmi.registry.LocateRegistry;
 import java.util.*;
 
 public class Server extends UnicastRemoteObject implements JogoInterface {
-    private static volatile String remoteHostName, remoteHostPort;
+    private static volatile String remoteHostName;
     // private static volatile int maxJogadas = 10;
     private static volatile Random random = new Random();
     private static volatile boolean jogadoresRegistrados = false;
@@ -75,7 +75,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
     }
 
     @Override
-    public int registra(String port) throws RemoteException {
+    public int registra(int port) throws RemoteException {
         // inicia o jogo
         if(jogadores.size() >= maxJogadores)
             return -1;
@@ -84,8 +84,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
 
         try {
             remoteHostName = getClientHost();
-            remoteHostPort = port;
-            Jogador jogador = new Jogador(idJogador, remoteHostName, remoteHostPort);
+            Jogador jogador = new Jogador(idJogador, remoteHostName, port);
             jogadores.add(jogador);
         } catch (Exception e) {
             System.out.println ("Failed to get client IP");

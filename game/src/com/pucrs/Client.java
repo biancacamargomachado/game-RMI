@@ -16,7 +16,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
     public static void main(String[] args) {
         System.out.println("Client has started");
-        String port = args[2];
+        int port = Integer.parseInt(args[2]);
 
         if (args.length != 3) {
             System.out.println("Usage: java Client <server ip> <client ip> <client port>");
@@ -25,7 +25,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
         try {
             System.setProperty("java.rmi.server.hostname", args[1]);
-            LocateRegistry.createRegistry(52369);
+            LocateRegistry.createRegistry(Integer.parseInt(args[2]));
             System.out.println("java RMI registry created.");
         } catch (RemoteException e) {
             System.out.println("java RMI registry already exists.");
@@ -33,7 +33,7 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
         // Para receber retorno do server [URl]
         try {
-            String client = "rmi://" + args[1] + ":52369/Callback";
+            String client = "rmi://" + args[1] + ":" + port + "/Callback";
             Naming.rebind(client, new Client());
             System.out.println("Client is ready.");
         } catch (Exception e) {
